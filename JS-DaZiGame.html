@@ -1,0 +1,397 @@
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=utf-8">
+		<style type="text/css">
+			.block{
+			position: absolute;
+			top: 0px;
+			width: 50px;
+			height: 50px;
+			border-radius: 25px;
+			background: pink;
+			text-align: center;
+			line-height: 50px;
+			font-weight: bold;
+		}
+		.Btn{
+			width: 100px;
+			height: 40px;
+		}
+		#gamePlace{
+			width: 1340px;
+			height: 600px;
+			position: relative;
+			margin: 0px auto;
+		}
+		#gameControl{
+			position:relative
+			width: 300px;
+			text-align: center;
+			display: inline;
+			margin-left: 100px;
+		}
+		</style>
+		<script type="text/javascript" src="jsFrame/event.js">
+		</script>
+		<script type="text/javascript">
+			var mRightCount = 0;//正确的次数
+			var mDrawTime = 80;//下落时间
+			var maxCount = 100;//最多次数
+			var mErrorCount = 0;//失误次数
+			var gamePlace ;
+			var scorePlace;
+			var errorPlace;
+
+			function Block(configJSON)
+			{
+				var me = this;
+
+				var mWidth;
+				var mHeight;
+				var mFont_Color;
+				var mBackground_color;
+				var mLeft;
+				var mTop;
+				var mInnerHTML;
+				var mFont_Size;
+				var mBorder_Radius;
+				var mClassName;
+
+				var mHtmlEl;
+				var mClickHandler;
+				var mParentEl;
+
+				
+				//随机产生字母
+				var mLetters = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M",
+					"N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+				var mLetters_index = 0;
+				
+				//字母大小
+				var mFontSize = new Array("10pt","12pt","14pt","16pt","18pt","20pt","22pt","24");
+				var mFontSize_index = 0;
+
+				//字母颜色
+				var mColor = new Array("#030303", "#0000CD", "#008B00", "#8B0000", "#9400D3",
+					"#CD0000","#EE00EE","#FFFF00");
+				var mColor_index = 0;
+
+				//背景颜色
+				var mBackground = new Array("#84B2CC", "#E6E6E6", "#E0FFFF","#FFE1FF","#FFBBFF","#CDB5CD","#B4EEB4","#D8BFD8");
+				var mBackground_index = 0;
+
+				//背景形状
+				var mBorderRadius = new Array("0px","5px","10px","15px","20px","25px");
+				var mBorderRadius_index = 0;
+
+				me.getWidth = function()
+				{
+					return mWidth;
+				};
+				me.getHeight = function()
+				{
+					return mHeight;
+				};
+				me.getFontColor = function()
+				{
+					return mFont_Color;
+				};
+				me.setFontColor = function()
+				{
+					mFont_Color = mColor[mColor_index];
+					if(mHtmlEl)
+					{
+						mHtmlEl.style.color = mFont_Color;
+					}
+				};
+				me.getBackgroundColor = function()
+				{
+					return mBackground_color;
+				};
+				me.setBackgroundColor = function(background)
+				{
+					mBackground_color = mBackground[mBackground_index];
+					if(mHtmlEl)
+					{
+						mHtmlEl.style.background = mBackground_color;
+					}
+				};
+				me.getLeft = function()
+				{
+					return mLeft;
+				};
+				me.setLeft = function()
+				{
+					mLeft = Math.floor(Math.random()*1300);
+					if(mHtmlEl)
+					{
+						mHtmlEl.style.left = mLeft + "px";
+					}
+				};
+				me.getTop = function()
+				{
+					return mTop;
+				};
+				me.setTop = function(top)
+				{
+					mTop = top;
+					if(mHtmlEl)
+					{
+						mHtmlEl.style.top = mTop + "px";
+					}
+				};
+				me.getInnerHTML = function()
+				{
+					return mInnerHTML;
+				};
+				me.setInnerHTML = function()
+				{
+					mInnerHTML = mLetters[mFontSize_index];
+					if(mHtmlEl)
+					{
+						mHtmlEl.innerHTML = mInnerHTML;
+					}
+				};
+				me.getFontSize = function()
+				{
+					return mFont_Size;
+				};
+				me.setFontSize = function()
+				{
+					mFont_Size = mFontSize[mFontSize_index];
+					if(mHtmlEl)
+					{
+						mHtmlEl.style.fontSize = mFont_Size;
+					}
+				};
+				me.getBorderRadius = function()
+				{
+					return mBorder_Radius;
+				};
+				me.setBorderRadius = function()
+				{
+					mBorder_Radius = mBorderRadius[mBorderRadius_index];
+					if(mHtmlEl)
+					{
+						mHtmlEl.style.borderRadius = mBorder_Radius;
+					}
+				};
+				me.getLettersIndex = function()
+				{
+					return mLetters_index;
+				};
+				me.setLettersIndex = function()
+				{
+					mLetters_index = Math.floor(Math.random()*mLetters.length);
+				};
+				me.getFontSizeIndex = function()
+				{
+					return mFontSize_index;
+				};
+				me.setFontSizeIndex = function()
+				{
+					mFontSize_index = Math.floor(Math.random()*mFontSize.length);
+				};
+				me.getColorIndex = function()
+				{
+					return mColor_index;
+				};
+				me.setColorIndex = function()
+				{
+					mColor_index = Math.floor(Math.random()*mColor.length);
+				};
+				me.getBackgroundIndex = function()
+				{
+					 return mBackground_index;
+				};
+				me.setBackgroundIndex = function()
+				{
+					 mBackground_index = Math.floor(Math.random()*mBackground.length);
+				};
+				me.getBorderRadiusIndex = function()
+				{
+					return mBorderRadius_index;
+				};
+				me.setBorderRadiusIndex = function()
+				{
+					mBorderRadius_index = Math.floor(Math.random()*mBorderRadius.length);
+				};
+				me.getClassName = function()
+				{
+					return mClassName;
+				};
+				me.setClassName = function()
+				{
+					mClassName = "block";
+					if(mHtmlEl)
+					{
+						mHtmlEl.className = mClassName;
+					}
+				};
+				me.getmHtmlEL = function()
+				{
+					return mHtmlEl;
+				};
+				me.setClickHandler = function(handler)
+				{
+					mClickHandler = handler || function(){};
+				};
+				me.setParent = function(parentEl)
+				{
+					if(!parentEl)
+					{
+						return ;
+					}
+
+					/*if(mParentEl)
+					{
+						mParentEl.removeChild(mHtmlEl);
+					}*/
+					mParentEl = parentEl;
+					mParentEl.appendChild(mHtmlEl);
+				};
+
+				function createHtmlEl()
+				{
+					mHtmlEl = document.createElement("div");
+					mHtmlEl.className = mClassName;
+
+					mHtmlEl.innerHTML = mLetters[mLetters_index];
+					mHtmlEl.style.fontSize = mFontSize[mFontSize_index];
+					mHtmlEl.style.left = Math.floor(Math.random()*1300) + "px";
+					mHtmlEl.style.color = mColor[mColor_index];
+					mHtmlEl.style.background = mBackground[mBackground_index];
+					mHtmlEl.style.borderRadius = mBorderRadius[mBorderRadius_index];
+
+					//添加事件
+					eventUtil.addHandler(window, "keydown",function(event)
+					{
+						//alert(mHtmlEl.innerHTML ==	String.fromCharCode(event.keyCode));
+						if(mHtmlEl.innerHTML ==	String.fromCharCode(event.keyCode))
+						{
+							me.destroy();
+							//怎么能不使用new方法初始化
+							scorePlace.value = mRightCount+1;
+							mRightCount += 1;
+							//alert(mRightCount);
+							if(mRightCount >= maxCount)
+							{
+								alert("恭喜你，进入下一关了！")
+								mRightCount = 0;
+								mDrawTime -= 10;
+								if(mDrawTime < 10)
+								{
+									alert("你太厉害了，通关了");
+								}
+							}
+							//new Block().start();
+							initBlock();
+							me.start();
+						}
+					});
+
+					var gamePlace = document.getElementById("gamePlace");
+					me.setParent(gamePlace);
+				}
+
+				function initBlock()
+				{
+					me.setClassName();
+					me.setBackgroundIndex();
+					me.setColorIndex();
+					me.setLettersIndex();
+					me.setBorderRadiusIndex();
+					me.setFontSizeIndex();
+					me.setLeft();
+
+					createHtmlEl();
+				}
+
+				me.destroy = function()
+				{
+					//让方块消失，并初始化新的方块
+					mHtmlEl.style.display = "none";
+					mHtmlEl = null;
+					clearInterval(me.intervalId);
+				//	me = null;
+				}
+
+				initBlock();
+				
+				me.start = function()
+				{
+					me.intervalId = setInterval(function(){
+						//clearInterval(intervalId);
+						if(mHtmlEl.offsetTop > 540)
+						{
+							mErrorCount += 1;
+							errorPlace.value = 3-mErrorCount;
+							if (mErrorCount >= 3) 
+							{
+								clearInterval(me.intervalId);
+								alert("Game Over!");
+								var startBtn = document.getElementById("startBtn");
+								me.destroy();
+								startBtn.disabled = false;
+								return ;
+							}
+							me.destroy();
+							initBlock();
+							me.start();
+						}
+						me.setTop(mHtmlEl.offsetTop + 10);
+					}, mDrawTime);
+				}
+			}
+			var b;
+			function startGame()
+			{
+				b = new Block();
+				
+				b.start();
+			}
+			function endGame()
+			{
+				b.destroy();
+			}
+
+			window.onload = function()
+			{
+				gamePlace = document.getElementById("gamePlace");
+				scorePlace = document.getElementById("score");
+				errorPlace = document.getElementById("error");
+				document.getElementById("gamePlace").style.backgroundImage ="url(picture/background.jpg)";
+				var startBtn = document.getElementById("startBtn");
+				var endBtn = document.getElementById("endBtn");
+
+				startBtn.onclick = function()
+				{
+					scorePlace.value = 0;
+					errorPlace.value = 3;
+					mErrorCount = 0;
+					mRightCount = 0;
+					startBtn.disabled = true;
+					startGame();
+				}
+				
+				endBtn.onclick = function()
+				{
+					startBtn.disabled = false;
+					endGame();
+				}
+
+			}
+		</script>
+	</head>
+	<body id="body">
+		<div id="gamePlace">
+		</div>
+		得到的分数：<input id="score" type="text" readonly="true" style="display:inline;
+		width:100px;">
+		生命值：<input id="error" type="text" readonly="true" style="display:inline;
+		width:100px;">
+		<div id="gameControl">
+		<input id="startBtn" class="Btn" type="button" value="开始游戏">
+		<input id="endBtn" class="Btn" type="button" value="结束游戏" ></div>
+	</body>
+</html>
